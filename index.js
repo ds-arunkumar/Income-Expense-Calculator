@@ -17,33 +17,55 @@ expenseList.addEventListener("submit", async (e) => {
   };
 
   // localStorage.setItem(expense)
-  let expenses;
-  try {
-    expenses = localStorage.getItem("expenses")
-      ? JSON.parse(localStorage.getItem("expenses"))
-      : [];
-    if (editModeEnable) {
-      expenses.splice(editModeIndex, 1, expense);
-      editModeEnable = false;
-      editModeIndex = -1;
-    } else {
-      expenses.push(expense);
-    }
+  const expenses = getData();
+  if (editModeEnable) {
+    expenses.splice(editModeIndex, 1, expense);
+    editModeEnable = false;
+    editModeIndex = -1;
+    expenseList.elements.submit.innerHTML = "Add Expense";
+    expenseList.elements.expenseItem.value = "";
+    expenseList.elements.expenseAmount.value = "";
+    expenseList.elements.expenseCategory.value = "";
+  } else {
+    expenses.push(expense);
+  }
 
-    localStorage.setItem("expenses", JSON.stringify(expenses));
-  } catch (error) {}
+  localStorage.setItem("expenses", JSON.stringify(expenses));
+  // try {
+  //   expenses = localStorage.getItem("expenses")
+  //     ? JSON.parse(localStorage.getItem("expenses"))
+  //     : [];
+  //   if (editModeEnable) {
+  //     expenses.splice(editModeIndex, 1, expense);
+  //     editModeEnable = false;
+  //     editModeIndex = -1;
+  //   } else {
+  //     expenses.push(expense);
+  //   }
+
+  //   localStorage.setItem("expenses", JSON.stringify(expenses));
+  // } catch (error) {}
   loadTable();
   calculate();
 });
 
-function loadTable() {
+function getData() {
   let expenses;
-
   try {
     expenses = localStorage.getItem("expenses")
       ? JSON.parse(localStorage.getItem("expenses"))
       : [];
   } catch (error) {}
+  return expenses;
+}
+function loadTable() {
+  const expenses = getData();
+
+  // try {
+  //   expenses = localStorage.getItem("expenses")
+  //     ? JSON.parse(localStorage.getItem("expenses"))
+  //     : [];
+  // } catch (error) {}
   const tBody = document.querySelector("#expense-list");
   tBody.innerHTML = "";
   for (let i = 0; i < expenses.length; i++) {
@@ -83,37 +105,42 @@ function loadTable() {
 function editItem(editIndex) {
   editModeEnable = true;
   editModeIndex = editIndex;
-  let expenses;
-  try {
-    expenses = localStorage.getItem("expenses")
-      ? JSON.parse(localStorage.getItem("expenses"))
-      : [];
-  } catch (error) {}
+  const expenses = getData();
+  // let expenses;
+  // try {
+  //   expenses = localStorage.getItem("expenses")
+  //     ? JSON.parse(localStorage.getItem("expenses"))
+  //     : [];
+  // } catch (error) {}
   expenseList.elements.expenseItem.value = expenses[editIndex].Item;
   expenseList.elements.expenseAmount.value = expenses[editIndex].amount;
   expenseList.elements.expenseCategory.value = expenses[editIndex].category;
+  expenseList.elements.submit.innerHTML = "Update";
 }
 
 function deleteItem(deleteIndex) {
-  let expenses;
-  try {
-    expenses = localStorage.getItem("expenses")
-      ? JSON.parse(localStorage.getItem("expenses"))
-      : [];
-    expenses.splice(deleteIndex, 1);
+  const expenses = getData();
+  // let expenses;
+  // try {
+  //   expenses = localStorage.getItem("expenses")
+  //     ? JSON.parse(localStorage.getItem("expenses"))
+  //     : [];
+  //   } catch (error) {}
+  expenses.splice(deleteIndex, 1);
 
-    localStorage.setItem("expenses", JSON.stringify(expenses));
-  } catch (error) {}
+  localStorage.setItem("expenses", JSON.stringify(expenses));
   loadTable();
 }
 function calculate() {
   const total = document.querySelector("#total-amount");
-  let expenses;
-  try {
-    expenses = localStorage.getItem("expenses")
-      ? JSON.parse(localStorage.getItem("expenses"))
-      : [];
-  } catch (error) {}
+  const expenses = getData();
+
+  // let expenses;
+  // try {
+  //   expenses = localStorage.getItem("expenses")
+  //     ? JSON.parse(localStorage.getItem("expenses"))
+  //     : [];
+  // } catch (error) {}
   let sum = 0;
   for (let i = 0; i < expenses.length; i++) {
     sum = sum + Number(expenses[i].amount);

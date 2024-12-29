@@ -25,6 +25,7 @@ form button {
   color: white;
   border: none;
   cursor: pointer;
+  width: 150px;
 }
 
 form button:hover {
