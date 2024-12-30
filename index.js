@@ -31,20 +31,7 @@ expenseList.addEventListener("submit", async (e) => {
   }
 
   localStorage.setItem("expenses", JSON.stringify(expenses));
-  // try {
-  //   expenses = localStorage.getItem("expenses")
-  //     ? JSON.parse(localStorage.getItem("expenses"))
-  //     : [];
-  //   if (editModeEnable) {
-  //     expenses.splice(editModeIndex, 1, expense);
-  //     editModeEnable = false;
-  //     editModeIndex = -1;
-  //   } else {
-  //     expenses.push(expense);
-  //   }
 
-  //   localStorage.setItem("expenses", JSON.stringify(expenses));
-  // } catch (error) {}
   loadTable();
   calculate();
 });
@@ -60,12 +47,6 @@ function getData() {
 }
 function loadTable() {
   const expenses = getData();
-
-  // try {
-  //   expenses = localStorage.getItem("expenses")
-  //     ? JSON.parse(localStorage.getItem("expenses"))
-  //     : [];
-  // } catch (error) {}
   const tBody = document.querySelector("#expense-list");
   tBody.innerHTML = "";
   for (let i = 0; i < expenses.length; i++) {
@@ -106,12 +87,6 @@ function editItem(editIndex) {
   editModeEnable = true;
   editModeIndex = editIndex;
   const expenses = getData();
-  // let expenses;
-  // try {
-  //   expenses = localStorage.getItem("expenses")
-  //     ? JSON.parse(localStorage.getItem("expenses"))
-  //     : [];
-  // } catch (error) {}
   expenseList.elements.expenseItem.value = expenses[editIndex].Item;
   expenseList.elements.expenseAmount.value = expenses[editIndex].amount;
   expenseList.elements.expenseCategory.value = expenses[editIndex].category;
@@ -120,27 +95,15 @@ function editItem(editIndex) {
 
 function deleteItem(deleteIndex) {
   const expenses = getData();
-  // let expenses;
-  // try {
-  //   expenses = localStorage.getItem("expenses")
-  //     ? JSON.parse(localStorage.getItem("expenses"))
-  //     : [];
-  //   } catch (error) {}
   expenses.splice(deleteIndex, 1);
 
   localStorage.setItem("expenses", JSON.stringify(expenses));
   loadTable();
+  calculate();
 }
 function calculate() {
   const total = document.querySelector("#total-amount");
   const expenses = getData();
-
-  // let expenses;
-  // try {
-  //   expenses = localStorage.getItem("expenses")
-  //     ? JSON.parse(localStorage.getItem("expenses"))
-  //     : [];
-  // } catch (error) {}
   let sum = 0;
   for (let i = 0; i < expenses.length; i++) {
     sum = sum + Number(expenses[i].amount);
